@@ -1,7 +1,8 @@
-// //function to calculate expense
+const Expense = require("../models/groupModel");
 
-// if(EXACT){}
-
-// elseif(EQUAL){}
-
-// else(PERCENT){}
+//function to create new user and validation
+const calculateexpense = ()=>{
+    const calculateexpense = new Expense(req.body);
+    newGroup.save()
+}
+module.exports = {calculateexpense};
