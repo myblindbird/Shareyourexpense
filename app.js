@@ -1,12 +1,16 @@
-var express = require('express');
-var path = require('path');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const logger = require('morgan');
 const db = require("./config/db.config");
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const indexRoute = require('./routes/index');
+const createuser = require('./routes/createuserRoute');
+const creategroup = require('./routes/creategroupRoute');
+const calculateexpense = require('./routes/calculateexpenseRoute.js');
+const displayexpense = require('./routes/displayexpenseRoute')
 
-var app = express();
+
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -16,12 +20,16 @@ db.once('open', ()=>{
   console.log('Connected to Mongo DB Atlas');
 });
 
+
 db.on('error', (err) => {
   console.log(err);
 });
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/', indexRoute);
+app.use('/createuser', createuser);
+app.use('/creategroup', creategroup);
+app.use('/calculateexpense', calculateexpense);
+app.use('/displayexpense',displayexpense);
 
 
 module.exports = app;
