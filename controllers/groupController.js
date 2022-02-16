@@ -22,7 +22,6 @@ const creategroup = async (req,res)=>{
             memArray.push(memName.name);
             console.log(memArray);
         });
-        // User.find({'_id':  { $in: members } }).populate('_id').exec();
         res.status(200).json({
             result: "Success",
             // group: group,

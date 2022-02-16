@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const indexRoute = require('./routes/index'); //homepage
 const createuser = require('./routes/createuserRoute'); //create user
 const creategroup = require('./routes/creategroupRoute');//create group
-const calculateexpense = require('./routes/calculateexpenseRoute.js');//calculate expense and display
+const splitbill = require('./routes/splitbillRoute.js');//calculate expense and display
 
 // const displayexpense = require('./routes/displayexpenseRoute')
 
@@ -32,7 +32,7 @@ db.on('error', (err) => {
 app.use('/', indexRoute);
 app.use('/createuser', createuser);
 app.use('/creategroup', creategroup);
-app.use('/calculateexpense', calculateexpense);
+app.use('/splitbill', splitbill);
 // app.use('/displayexpense',displayexpense);
 
 
