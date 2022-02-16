@@ -4,19 +4,19 @@ const User = require("./userModel");
 const Group = require("./groupModel");
 
 const splitbill = mongoose.Schema({
-    gname:[{
+    gname:{
         type: mongoose.Schema.ObjectId,
         ref: Group
-    }],
+    },
     expenseType:{
         type: String,
         enum: ["EXACT", "PERCENT", "EQUAL"],
         default: "EQUAL"
     },
-    paidBy:[{
+    paidBy:{
         type: mongoose.Schema.ObjectId,
         ref: User
-    }],
+    },
     amount: {
         type: String,
         require: true

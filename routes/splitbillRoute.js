@@ -3,6 +3,6 @@ const router = express.Router();
 
 const {split} = require('../controllers/splitbillController');
 
-router.get('/', split)
+router.post('/', split)
 
 module.exports=router;

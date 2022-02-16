@@ -1,7 +1,7 @@
 const splitbill = require("../models/splitbillModel");
 
 
-const split = ()=>{
+const split = (req,res)=>{
     const newsplitbill = new splitbill(req.body);
     console.log(newsplitbill);
     newsplitbill
