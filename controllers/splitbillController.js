@@ -30,7 +30,7 @@ const split = (req,res)=>{
 
         //for equal split
         if(expenseType == "EQUAL"){
-            
+            console.log("inside expense typee")
             //calculating contro for each member
             var contro = amount/(sharedById.length +1);
 
@@ -38,9 +38,20 @@ const split = (req,res)=>{
             contro = Math.round(contro * 100) / 100;
             console.log(contro)
 
-            //updating amounts in database
+            //updating payee amounts in database
             const payee = await User.findById(paidbyId);
-            console.log(payee);
+            console.log(payee.fname);
+
+            sharedById.forEach(async id => {
+                const takeFrom = await User.findById(id);
+                const member = await User.findByIdAndUpdate(paidbyId, {takefrom: takeFrom.fname}, {amount: contro});
+            });
+
+            //updating shared members amount in database
+            sharedById.forEach(async id => {
+                const member = await User.findByIdAndUpdate(id, {giveto: payee.fname}, {amount: contro});
+            });
+
         }
 
         //for percent split
@@ -56,6 +67,11 @@ const split = (req,res)=>{
             //updating amounts in database
             const payee = await User.findById(paidbyId);
             console.log(payee);
+
+            //updating shared members amount in database
+            sharedById.forEach(async id => {
+                const member = await User.findByIdAndUpdate(id, {giveto: payee.fname}, {amount: contro});
+            });
         }
         
         //for exact split

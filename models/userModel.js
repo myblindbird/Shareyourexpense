@@ -21,8 +21,17 @@ const userSchema = mongoose.Schema({
         require: true,
         // unique: true,
         maxlength: 10
+    },
+    giveto:{
+        type: String
+    },
+    takefrom:{
+        type: String
+    },
+    amount:{
+        type: Number,
+        default: 0
     }
-
 
 })
 
