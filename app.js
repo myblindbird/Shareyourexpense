@@ -4,7 +4,6 @@ const logger = require('morgan');
 const db = require("./config/db.config");
 const bodyParser = require('body-parser');
 
-const indexRoute = require('./routes/index'); //homepage
 const createuser = require('./routes/createuserRoute'); //create user
 const creategroup = require('./routes/creategroupRoute');//create group
 const splitbill = require('./routes/splitbillRoute.js');//calculate expense and display
@@ -29,7 +28,7 @@ db.on('error', (err) => {
   console.log(err);
 });
 
-app.use('/', indexRoute);
+
 app.use('/createuser', createuser);
 app.use('/creategroup', creategroup);
 app.use('/splitbill', splitbill);

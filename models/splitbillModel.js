@@ -22,7 +22,7 @@ const splitbill = mongoose.Schema({
         require: true
     },
 
-    lentBy:[
+    sharedBy:[
         {
             type:mongoose.Schema.ObjectId,
             ref: User
