@@ -2,11 +2,13 @@ const express = require('express');
 const path = require('path');
 const logger = require('morgan');
 const db = require("./config/db.config");
+const bodyParser = require('body-parser');
 
 const indexRoute = require('./routes/index'); //homepage
 const createuser = require('./routes/createuserRoute'); //create user
 const creategroup = require('./routes/creategroupRoute');//create group
 const calculateexpense = require('./routes/calculateexpenseRoute.js');//calculate expense and display
+
 // const displayexpense = require('./routes/displayexpenseRoute')
 
 
@@ -15,6 +17,8 @@ const app = express();
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 db.once('open', ()=>{
   console.log('Connected to Mongo DB Atlas');

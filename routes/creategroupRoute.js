@@ -3,6 +3,6 @@ const router = express.Router();
 
 const {creategroup} = require('../controllers/groupController')
 
-router.post('/:userID',creategroup)
+router.post('/:userId',creategroup)
 
 module.exports = router;
