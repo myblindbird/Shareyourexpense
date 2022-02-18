@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"email\":\"sanjay@gmail.com\",\n    \"fname\": \"sanjay\",\n    \"lname\": \"soni\",\n    \"mobile\": \"8776565434\"\n}",
+					"raw": "{\n    \"email\":\"tanmay@gmail.com\",\n    \"fname\": \"Tanmay\",\n    \"lname\": \"Soni\",\n    \"mobile\": \"8788988878\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -40,7 +40,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"gname\":\"new group\",\n    \"members\": [\"620fadb3ffdfb602879bf52f\",\"620fadc1ffdfb602879bf531\"]\n}",
+					"raw": "{\n    \"gname\":\"Group of Ajay, Vijay, Sanjay, Tanmay\",\n    \"members\": [\"620fe4f69939e9e4cd8d528a\",\"620fe5049939e9e4cd8d528c\",\"620fe5159939e9e4cd8d528e\"]\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -48,7 +48,7 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:3000/group/creategroup/620fad9bffdfb602879bf52d",
+					"raw": "localhost:3000/group/creategroup/620fe487d21329783f6a7a19",
 					"host": [
 						"localhost"
 					],
@@ -56,7 +56,7 @@
 					"path": [
 						"group",
 						"creategroup",
-						"620fad9bffdfb602879bf52d"
+						"620fe487d21329783f6a7a19"
 					]
 				}
 			},
@@ -69,7 +69,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"gid\": \"620fae10ffdfb602879bf534\",\n    \"expenseType\":\"EQUAL\",\n    \"paidBy\":\"620fad9bffdfb602879bf52d\",\n    \"amount\":900,\n    \"sharedBy\":[\"620fadb3ffdfb602879bf52f\", \"620fadc1ffdfb602879bf531\"]\n    \n}",
+					"raw": "{\n    \"gid\": \"620fe5779939e9e4cd8d5291\",\n    \"expenseType\":\"PERCENT\",\n    \"paidBy\":\"620fe487d21329783f6a7a19\",\n    \"amount\":1600,\n    \"sharedBy\":[\"620fe4f69939e9e4cd8d528a\", \"620fe5049939e9e4cd8d528c\",\"620fe5159939e9e4cd8d528e\"],\n    \"sharingStructure\":{\n        \"620fe4f69939e9e4cd8d528a\":40,\n        \"620fe5049939e9e4cd8d528c\":30,\n        \"620fe5159939e9e4cd8d528e\": 30\n    }\n    \n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -133,14 +133,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:3000/displayexpense/620fae10ffdfb602879bf534",
+					"raw": "localhost:3000/displayexpense/620fe5779939e9e4cd8d5291",
 					"host": [
 						"localhost"
 					],
 					"port": "3000",
 					"path": [
 						"displayexpense",
-						"620fae10ffdfb602879bf534"
+						"620fe5779939e9e4cd8d5291"
 					]
 				}
 			},
