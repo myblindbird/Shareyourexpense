@@ -1,4 +1,6 @@
 const User = require("../models/userModel");
+
+
 //function to create new user and validation
 const createuser = (req,res)=>{
     const newUser = new User(req.body);
@@ -14,5 +16,15 @@ const createuser = (req,res)=>{
     .catch((err)=>{
         res.status(400).json({result: "Error", message: `Some Error Occured..`});
     })
+      
 }
-module.exports = {createuser};
+
+//fetching all users
+const fetchUser = (req, res) => {
+    User.find({}, (err, user) => {
+      res.send(user);
+    });
+  };
+
+  //exporting
+module.exports = {fetchUser, createuser};

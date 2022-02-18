@@ -34,4 +34,10 @@ const creategroup = async (req,res)=>{
     })
     
 }
-module.exports = {creategroup};
+
+const fetchGroup = (req, res) => {
+    Group.find({}, (err, group) => {
+      res.send(group);
+    });
+  };
+module.exports = {fetchGroup, creategroup};

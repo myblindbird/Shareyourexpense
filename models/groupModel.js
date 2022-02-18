@@ -2,7 +2,7 @@
 const mongoose = require("mongoose")
 const User = require("../models/userModel");
 
-
+//defining Schema
 const groupSchema = mongoose.Schema({
     gname: {
         type: String,
@@ -16,5 +16,5 @@ const groupSchema = mongoose.Schema({
     ]
     
 })
-
+//exporting schema
 module.exports = mongoose.model("Group", groupSchema);

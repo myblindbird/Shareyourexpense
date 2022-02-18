@@ -1,5 +1,6 @@
-//Creating User Schema for new user
 const mongoose = require("mongoose")
+
+//defining Schema
 const userSchema = mongoose.Schema({
     email:{
         type: String,
@@ -25,14 +26,16 @@ const userSchema = mongoose.Schema({
     giveto:{
         type: String
     },
+    //how to take push json in row
     takefrom:{
-        type: String
+        type: Object
     },
-    amount:{
-        type: Number,
-        default: 0
-    }
+    youPaid:{
+        type: Number
+    },
 
 })
 
+//exporting schema
 module.exports = mongoose.model("User", userSchema);
+

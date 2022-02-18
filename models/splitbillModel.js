@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const User = require("./userModel");
 const Group = require("./groupModel");
 
+//defining Schema
 const splitbill = mongoose.Schema({
     gname:{
         type: mongoose.Schema.ObjectId,
@@ -27,9 +28,11 @@ const splitbill = mongoose.Schema({
             type:mongoose.Schema.ObjectId,
             ref: User
         }
-    ]
+    ],
+
+    sharingStructure:{}
 })
 
 
-
+//exporting schema
 module.exports = mongoose.model("splitbill", splitbill);

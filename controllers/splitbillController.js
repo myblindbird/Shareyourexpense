@@ -1,94 +1,158 @@
-const splitbill = require("../models/splitbillModel");
+const Splitbill = require("../models/splitbillModel");
 const User = require("../models/userModel");
 const Group = require("../models/groupModel");
+const Expense = require("../models/expenseModel");
 
 
-const split = (req,res)=>{
-    const newsplitbill = new splitbill(req.body);
+//fetching data from API
+const split = async (req,res)=>{
 
-    const amount = req.body.amount;
-    const paidbyId = req.body.paidBy;
-    const sharedById = req.body.sharedBy;
-    const expenseType = req.body.expenseType;
+    //creating list of expenses detail
+    var expenses = [];
+
+    //creating a flag to validate percentage split
+    var flag= 0;
+
+    //storing body response
+    const newSplitBill = new Splitbill(req.body);
     
-    //saving the data in database and sending response
-    newsplitbill
-    .save()
-    .then((split)=>{
+    //finding group id
+    const group = await Group.findById(req.body.gid);
+
+    //validate if Payee belong to that group
+    if(!group.members.includes(req.body.paidBy))
+        return res.send({message: "Invalid payee!!"});
+    
+    //validate if group is empty 
+    if(req.body.sharedBy.length==0)
+        return res.send({message: "No Members in group!!"});
+
+    //validate if members belong to that group
+    for(let i =0; i<req.body.sharedBy.length; i++){
+        if(!group.members.includes(req.body.sharedBy[i]))
+            return res.send({message: "Invalid members in group!!"});
+    }
+    
+    //updating the bill Data in database
+    newSplitBill
+    .save() 
+    .catch((err)=>{
+        res.status(400).json({result: "Error", message: `Failed to update data in database`});
+    })
+
+//calculating PERCENT, EQUAL, EXACT expense
+
+    //calculating PERCENT expense
+    if(req.body.expenseType == "PERCENT"){
+
+            let percentSharingStructure = req.body.sharingStructure;
+            let sharedBy = req.body.sharedBy;
+
+            //validating if sum of percentage is 100%
+            let sum =Object.values(percentSharingStructure).reduce((a,b)=>{
+                return a+b;
+            });
+            if(sum != 100){
+                flag = 1;
+            }
+            else{
+
+            //calculating contro per sharedBy member
+            for(let i=0;i<sharedBy.length;i++){
+                
+                //calculate contro upto 2 decimal places
+                let amount = (((percentSharingStructure[sharedBy[i]])/100)*req.body.amount).toFixed(2);
+                
+                //json data store
+                const expense= new Expense({
+                    "groupId":req.body.gid,
+                    "from":req.body.paidBy,
+                    "to":sharedBy[i],
+                    "amount":amount
+                })
+
+                expenses.push(expense);
+
+                //saving data in dataBase
+                expense
+                .save()
+                .catch((err)=>{
+                    res.status(400).json({result: "Error", message: `Error is ${err}`});
+                })
+        
+            }
+        }
+}
+
+        //calculating EQUAL expense
+        else if(req.body.expenseType == "EQUAL"){
+
+            let sharedBy = req.body.sharedBy;
+
+            //calculate contro upto 2 decimal places
+            let amount = ((req.body.amount)/(sharedBy.length+1)).toFixed(2);
+
+            //calculating contro per sharedBy member
+            for(let i=0;i<sharedBy.length;i++){
+
+                //json data store
+                const expense = new Expense({
+                    "groupId":req.body.gid,
+                    "from":req.body.paidBy,
+                    "to":sharedBy[i],
+                    "amount":amount
+                })
+                expenses.push(expense);
+
+                //saving data in dataBase
+                expense
+                .save()
+                .catch((err)=>{
+                    res.status(400).json({result: "Error", message: `Error is ${err}`});
+                })
+        
+            }
+        }
+
+        //calculating EXACT expense
+        else {
+            let exactSharingStructure = req.body.sharingStructure;
+            let sharedBy = req.body.sharedBy;
+
+            //calculating contro per sharedBy member
+            for(let i=0;i<Object.keys(exactSharingStructure).length;i++){
+                let amount = exactSharingStructure[sharedBy[i]];
+
+                //json data store
+                const expense= new Expense({
+                    "groupId":req.body.gid,
+                    "from":req.body.paidBy,
+                    "to":sharedBy[i],
+                    "amount":amount
+                })
+                expenses.push(expense);
+                
+                //saving data in dataBase
+                expense
+                .save()
+                .catch((err)=>{
+                    res.status(400).json({result: "Error", message: `Error is ${err}`});
+                })
+            }
+        }
+        
+       // sending success response
+       if(flag!=1){
         res.status(200).json({
             result: "Success",
-            split: split,
-            message: `Split Bill Info Updated Successfully`
-        })
-    })
-    .catch((err)=>{
-        res.status(400).json({result: "Error", message: `Some Error Occured..`});
-    })
-
-    //calculating Expense base on Expense Type
-    const calculateExp = async()=>{
-
-        //for equal split
-        if(expenseType == "EQUAL"){
-            console.log("inside expense typee")
-            //calculating contro for each member
-            var contro = amount/(sharedById.length +1);
-
-            //rounding off the value
-            contro = Math.round(contro * 100) / 100;
-            console.log(contro)
-
-            //updating payee amounts in database
-            const payee = await User.findById(paidbyId);
-            console.log(payee.fname);
-
-            sharedById.forEach(async id => {
-                const takeFrom = await User.findById(id);
-                const member = await User.findByIdAndUpdate(paidbyId, {takefrom: takeFrom.fname}, {amount: contro});
-            });
-
-            //updating shared members amount in database
-            sharedById.forEach(async id => {
-                const member = await User.findByIdAndUpdate(id, {giveto: payee.fname}, {amount: contro});
-            });
-
-        }
-
-        //for percent split
-        else if(expenseType == "PERCENT"){
-
-            //calculating contro for each member
-            var contro = amount/(sharedById.length +1);
-
-            //rounding off the value
-            contro = Math.round(contro * 100) / 100;
-            console.log(contro)
-
-            //updating amounts in database
-            const payee = await User.findById(paidbyId);
-            console.log(payee);
-
-            //updating shared members amount in database
-            sharedById.forEach(async id => {
-                const member = await User.findByIdAndUpdate(id, {giveto: payee.fname}, {amount: contro});
-            });
-        }
-        
-        //for exact split
-        else{
-            //calculating contro for each member
-            var contro = amount/(sharedById.length);
-
-            //rounding off the value
-            contro = Math.round(contro * 100) / 100;
-            console.log(contro)
-
-            //updating amounts in database
-            const payee = await User.findById(paidbyId);
-            console.log(payee);
-        }
-    
-        
-    }
+            message: `Split Bill Info Updated Successfully`,
+            expenses:expenses
+        }) 
+       }
+       else{
+        res.send("Sum of entered percentages is not 100. Please enter complete details")
+       }
 }
+
+//exporting controller
 module.exports = {split};
