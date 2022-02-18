@@ -15,29 +15,23 @@ const creategroup = async (req,res)=>{
     newGroup
     .save()
     .then((group)=>{
-        let memArray = [];
-        const members = req.body.members;
-        members.forEach(async id => {
-            const memName = await User.findById(id);
-            memArray.push(memName.name);
-            console.log(memArray);
-        });
         res.status(200).json({
             result: "Success",
-            // group: group,
+            group: newGroup,
             message: `Group created Successfully.`
         })
     })
     .catch((err)=>{
-        console.log("Inside catch")
         res.status(400).json({result: "Error", message: `Some Error Occured..`});
     })
     
 }
 
+//fetching all the groups
 const fetchGroup = (req, res) => {
     Group.find({}, (err, group) => {
       res.send(group);
     });
   };
+
 module.exports = {fetchGroup, creategroup};

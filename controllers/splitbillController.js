@@ -21,11 +21,11 @@ const split = async (req,res)=>{
 
     //validate if Payee belong to that group
     if(!group.members.includes(req.body.paidBy))
-        return res.send({message: "Invalid payee!!"});
+        return res.status(400).send({message: "Invalid payee!!"});
     
     //validate if group is empty 
     if(req.body.sharedBy.length==0)
-        return res.send({message: "No Members in group!!"});
+        return res.status(400).send({message: "No Members in group!!"});
 
     //validate if members belong to that group
     for(let i =0; i<req.body.sharedBy.length; i++){
@@ -82,7 +82,7 @@ const split = async (req,res)=>{
         
             }
         }
-}
+}//end of PERCENT expense
 
         //calculating EQUAL expense
         else if(req.body.expenseType == "EQUAL"){
@@ -112,7 +112,7 @@ const split = async (req,res)=>{
                 })
         
             }
-        }
+        }//end of EQUAL expense
 
         //calculating EXACT expense
         else {
@@ -129,6 +129,7 @@ const split = async (req,res)=>{
                     "from":req.body.paidBy,
                     "to":sharedBy[i],
                     "amount":amount
+                    
                 })
                 expenses.push(expense);
                 
@@ -139,7 +140,7 @@ const split = async (req,res)=>{
                     res.status(400).json({result: "Error", message: `Error is ${err}`});
                 })
             }
-        }
+        }//end of EXACT expense
         
        // sending success response
        if(flag!=1){
@@ -150,7 +151,7 @@ const split = async (req,res)=>{
         }) 
        }
        else{
-        res.send("Sum of entered percentages is not 100. Please enter complete details")
+        res.status(402).send("Sum of entered percentages is not 100. Please enter complete details")
        }
 }
 

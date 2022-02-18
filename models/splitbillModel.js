@@ -19,7 +19,7 @@ const splitbill = mongoose.Schema({
         ref: User
     },
     amount: {
-        type: String,
+        type: Number,
         require: true
     },
 

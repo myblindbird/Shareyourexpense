@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 //require routes
 const createuser = require('./routes/createuserRoute'); //create user
 const creategroup = require('./routes/creategroupRoute');//create group
-const splitbill = require('./routes/splitbillRoute.js');//calculate expense and display
-// const displayexpense = require('./routes/displayexpenseRoute')
+const splitbill = require('./routes/splitbillRoute.js');//calculate expense
+const displayExpense = require('./routes/displayexpenseRoute');
 
 //express app
 const app = express();
@@ -30,11 +30,11 @@ db.on('error', (err) => {
   console.log(err);
 });
 
-
+//routes
 app.use('/user', createuser);
 app.use('/group', creategroup);
 app.use('/splitbill', splitbill);
-// app.use('/displayexpense',displayexpense);
+app.use('/displayexpense',displayExpense);
 
 //exporting app
 module.exports = app;

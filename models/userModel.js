@@ -5,7 +5,7 @@ const userSchema = mongoose.Schema({
     email:{
         type: String,
         require: true,
-        // unique: true,
+        unique: true,
     },
     fname:{
         type: String,
@@ -14,26 +14,16 @@ const userSchema = mongoose.Schema({
     },
     lname:{
         type: String,
-        require: true,
         trim: true
     },
     mobile:{
         type: Number,
         require: true,
-        // unique: true,
-        maxlength: 10
-    },
-    giveto:{
-        type: String
-    },
-    //how to take push json in row
-    takefrom:{
-        type: Object
-    },
-    youPaid:{
-        type: Number
-    },
-
+        unique: true,
+        maxlength: 10,
+        minlength: 10,
+        match: /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/
+    }
 })
 
 //exporting schema

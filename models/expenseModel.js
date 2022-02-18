@@ -10,16 +10,17 @@ const expenseSchema = mongoose.Schema({
         ref: Group
     },
     from:{
-        type:mongoose.Schema.ObjectId,
-        ref: User
+        type: String,
+        ref: 'User'
     },
     to:{
-        type:mongoose.Schema.ObjectId,
-        ref: User
+        type: String,
+        ref: 'User'
     },
     amount:{
-        type: Number
-    },
+        type: Number,
+        default: 0
+    }
     
 })
 
